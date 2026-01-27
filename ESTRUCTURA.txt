@@ -1,0 +1,122 @@
+ESTRUCTURA DE ARCHIVOS
+======================
+
+network-map-viewer/
+│
+├── index.html              → Página principal (abre este archivo)
+│
+├── css/
+│   └── styles.css          → Todos los estilos
+│
+├── js/
+│   ├── config.js           → Configuración (ajusta coordenadas aquí)
+│   └── app.js              → Lógica de la aplicación
+│
+└── images/
+    ├── planta_de_puntos.png    → Tu plano base
+    ├── punto_1.jpeg            → ✓ Captura WiFi punto 1 (rssi -72)
+    ├── punto_2.jpeg            → ✓ Captura WiFi punto 2 (rssi -48)
+    ├── punto_3.jpeg            → ✓ Captura WiFi punto 3 (rssi -53)
+    ├── punto_4.jpeg            → ✓ Captura WiFi punto 4 (rssi -68)
+    ├── punto_5.jpeg            → ✓ Captura WiFi punto 5 (rssi -60)
+    ├── punto_6.jpeg            → ✓ Captura WiFi punto 6 (rssi -48)
+    ├── punto_7.jpeg            → ✓ Captura WiFi punto 7 (rssi -56)
+    ├── punto_8.jpeg            → (agregar cuando captures)
+    ├── punto_9.jpeg            → (agregar cuando captures)
+    └── ... hasta punto_28.jpeg
+
+
+CÓMO SUBIR A GITHUB PAGES
+==========================
+
+1. Crea un repositorio en GitHub (ejemplo: "wifi-coverage-map")
+
+2. Sube todos estos archivos manteniendo la estructura:
+   
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/TU-USUARIO/wifi-coverage-map.git
+   git push -u origin main
+
+3. Activa GitHub Pages:
+   - Ve a Settings → Pages
+   - Source: Deploy from branch
+   - Branch: main
+   - Folder: / (root)
+   - Save
+
+4. Espera 1-2 minutos y accede a:
+   https://TU-USUARIO.github.io/wifi-coverage-map/
+
+
+CÓMO AGREGAR MÁS PUNTOS
+========================
+
+Para cada nuevo punto (ejemplo: punto 8):
+
+1. Ve a la ubicación física
+2. Captura pantalla WiFi mostrando el rssi
+3. Guarda como: punto_8.jpeg en carpeta images/
+4. Edita js/config.js:
+   - Busca { id: 8, ...
+   - Actualiza el valor "signal:" con el rssi que obtuviste
+   - Ajusta x,y si la posición no coincide con el plano
+5. Sube cambios a GitHub:
+   git add images/punto_8.jpeg js/config.js
+   git commit -m "Agregar punto 8"
+   git push
+
+
+CÓMO AJUSTAR COORDENADAS
+=========================
+
+Las coordenadas x,y son PORCENTAJES (0-100):
+- x: 0 = izquierda, 100 = derecha
+- y: 0 = arriba, 100 = abajo
+
+Para ajustar la posición de un punto:
+
+1. Abre el sitio
+2. Activa la cuadrícula (botón ▦)
+3. Identifica visualmente donde está el número en tu plano
+4. Edita js/config.js y cambia los valores x,y
+5. Recarga la página para ver el cambio
+
+
+VALORES DE SEÑAL REALES
+========================
+
+Extraídos de tus capturas:
+
+Punto 1: -62 dBm (Regular)
+Punto 2: -48 dBm (Excelente) 
+Punto 3: -60 dBm (Buena)
+Punto 4: -68 dBm (Regular)
+Punto 5: -60 dBm (Buena)
+Punto 6: -48 dBm (Excelente)
+Punto 7: -56 dBm (Buena)
+
+Puntos 8-28: Valores estimados pendientes de actualizar
+
+
+CATEGORÍAS DE SEÑAL
+====================
+
+Excelente: >= -50 dBm  (Verde)
+Buena:     -51 a -60   (Azul)
+Regular:   -61 a -70   (Naranja)
+Débil:     < -70       (Rojo)
+
+
+CONTROLES DE LA INTERFAZ
+=========================
+
+🏷️ Etiquetas  → Mostrar/ocultar números
+▦ Cuadrícula  → Activar grid de referencia
++ / -         → Zoom in/out
+⟲             → Reset vista
+Rueda mouse   → Zoom
+Arrastrar     → Mover mapa
+Hover punto   → Ver tooltip
+Click punto   → Ver detalles

@@ -1,0 +1,114 @@
+CAMBIOS REALIZADOS - Enlaces a Fotos
+=====================================
+
+✅ Se agregaron enlaces clickeables a las capturas WiFi en:
+   1. Tooltips (al hacer hover sobre cada punto)
+   2. Panel de información lateral (al hacer click en un punto)
+
+📝 ARCHIVOS MODIFICADOS:
+========================
+
+1. js/app.js
+   -----------
+   • Agregado enlace en el tooltip:
+     <a href="images/punto_X.jpeg" target="_blank">📷 Ver captura WiFi</a>
+   
+   • Agregado enlace en panel de información al seleccionar punto
+   • Los enlaces abren la imagen en nueva pestaña
+
+2. css/styles.css
+   ---------------
+   • Nuevos estilos para .photo-link (enlaces en tooltip)
+   • Nuevos estilos para .photo-link-panel (enlaces en panel)
+   • Botones con gradiente azul-morado
+   • Efecto hover con elevación y sombra
+
+3. js/config.js
+   ------------
+   • ✅ Actualizado con tus nuevas coordenadas
+   • ✅ Actualizado con tus nuevos valores de señal
+   • Todos los 28 puntos configurados
+
+🎨 CÓMO SE VE:
+==============
+
+Al hacer HOVER sobre un punto:
+┌─────────────────────────────┐
+│ Punto 1        [Excelente]  │
+│─────────────────────────────│
+│ Señal: -62 dBm              │
+│ Ubicación: Área Principal   │
+│ Red: NFZ Guest              │
+│─────────────────────────────│
+│ [📷 Ver captura WiFi]       │ ← Click aquí
+└─────────────────────────────┘
+
+Al hacer CLICK en un punto, aparece en el panel lateral:
+┌─────────────────────────────┐
+│ Punto Seleccionado          │
+│─────────────────────────────│
+│ ID: Punto 1                 │
+│ Señal: -62 dBm (Regular)    │
+│ Ubicación: Área Principal   │
+│─────────────────────────────│
+│ [📷 Ver captura completa]   │ ← Click aquí
+└─────────────────────────────┘
+
+🔗 FUNCIONAMIENTO:
+==================
+
+• Los enlaces usan la ruta: images/punto_X.jpeg
+• Se abren en nueva pestaña (target="_blank")
+• Funcionan tanto en desktop como móvil
+• Botones con estilo moderno y gradiente
+
+📊 RESUMEN DE TUS DATOS:
+========================
+
+Puntos con señal EXCELENTE (≥ -50 dBm):
+  • Punto 3: -48 dBm
+  • Punto 24: -48 dBm
+  • Punto 28: -48 dBm
+  • Punto 22: -49 dBm
+
+Puntos con señal BUENA (-51 a -60):
+  • Punto 2: -56 dBm
+  • Punto 9: -56 dBm
+  • Punto 13: -56 dBm
+  • Punto 10: -52 dBm
+  • Punto 15: -53 dBm
+  • Punto 25: -53 dBm
+  • Punto 16: -58 dBm
+  • Punto 23: -59 dBm
+  • Punto 14: -59 dBm
+  • Punto 4: -60 dBm
+  • Punto 8: -60 dBm
+  • Punto 12: -60 dBm
+  • Punto 27: -60 dBm
+
+Puntos con señal REGULAR (-61 a -70):
+  • Punto 1: -62 dBm
+  • Punto 11: -61 dBm
+  • Punto 21: -64 dBm
+  • Punto 19: -66 dBm
+  • Punto 5: -68 dBm
+  • Punto 26: -68 dBm
+  • Punto 20: -69 dBm
+
+Puntos con señal DÉBIL (< -70):
+  • Punto 7: -72 dBm
+  • Punto 6: -78 dBm
+  • Punto 17: -80 dBm
+  • Punto 18: -83 dBm ⚠️ (Señal muy débil)
+
+💡 RECOMENDACIONES:
+===================
+
+• Punto 18 tiene la señal más débil (-83 dBm)
+  → Considera mover o agregar AP cerca
+  
+• Puntos 17 y 18 en zona NO necesitan atención
+  → Posible obstrucción o distancia al AP
+
+• Buena cobertura en zonas 3, 22, 24, 28
+  → Mantener configuración actual
