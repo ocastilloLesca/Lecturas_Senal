@@ -3,14 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa WiFi - Lectura de señal</title>
+    <title>Plano de planta - tomas de lectura de señal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00a8cc 0%, #0891b2 50%, #0e7490 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-bottom: 4px solid #00a8cc;
+        }
+        
+        .header h1 {
+            color: #0e7490;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #00a8cc 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,168,204,0.3);
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,168,204,0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .main {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .map-container {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e0f2fe;
+        }
+        
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+        
+        .floor-plan {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .grid-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .points-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .sidebar {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #00a8cc;
+        }
+        
+        .card h3 {
+            color: #0e7490;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f0f9ff;
+            border-left: 4px solid #00a8cc;
+        }
+        
+        .stat span {
+            color: #0e7490;
+            font-weight: 500;
+        }
+        
+        .stat b {
+            color: #00a8cc;
+            font-size: 1.2em;
+        }
+        
+        .stat.excellent {
+            background: #d1fae5;
+            border-left-color: #10b981;
+        }
+        
+        .stat.excellent b {
+            color: #059669;
+        }
+        
+        .stat.good {
+            background: #dbeafe;
+            border-left-color: #3b82f6;
+        }
+        
+        .stat.good b {
+            color: #2563eb;
+        }
+        
+        .stat.fair {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+        
+        .stat.fair b {
+            color: #d97706;
+        }
+        
+        .stat.poor {
+            background: #fee2e2;
+            border-left-color: #ef4444;
+        }
+        
+        .stat.poor b {
+            color: #dc2626;
+        }
+        
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0e7490;
+            font-weight: 500;
+        }
+        
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dot.excellent {
+            background: #10b981;
+        }
+        
+        .dot.good {
+            background: #3b82f6;
+        }
+        
+        .dot.fair {
+            background: #f59e0b;
+        }
+        
+        .dot.poor {
+            background: #ef4444;
+        }
+        
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .info div {
+            padding: 8px;
+            background: #f0f9ff;
+            border-radius: 6px;
+            color: #0e7490;
+        }
+        
+        .info b {
+            color: #00a8cc;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Mapa WiFi - Lectura de señal</h1>
+            <h1>📡 Plano de planta - tomas de lectura de señall</h1>
             <div class="controls">
                 <button id="toggleLabels" class="btn">🏷️ Etiquetas</button>
                 <button id="toggleGrid" class="btn">▦ Cuadrícula</button>
@@ -19,7 +278,6 @@
                 <button id="resetView" class="btn">⟲</button>
             </div>
         </header>
-
         <main class="main">
             <div class="map-container" id="mapContainer">
                 <div class="map-wrapper" id="mapWrapper">
@@ -28,10 +286,9 @@
                     <div id="pointsLayer" class="points-layer"></div>
                 </div>
             </div>
-
             <aside class="sidebar">
                 <div class="card">
-                    <h3>Estadísticas</h3>
+                    <h3>📊 Estadísticas</h3>
                     <div class="stats">
                         <div class="stat"><span>Total:</span> <b id="totalPoints">28</b></div>
                         <div class="stat excellent"><span>Excelente:</span> <b id="excellentPoints">0</b></div>
@@ -40,9 +297,8 @@
                         <div class="stat poor"><span>Débil:</span> <b id="poorPoints">0</b></div>
                     </div>
                 </div>
-
                 <div class="card">
-                    <h3>Leyenda</h3>
+                    <h3>🎨 Leyenda</h3>
                     <div class="legend">
                         <div class="legend-item"><span class="dot excellent"></span> Excelente (≥ -50 dBm)</div>
                         <div class="legend-item"><span class="dot good"></span> Buena (-51 a -60)</div>
@@ -50,9 +306,8 @@
                         <div class="legend-item"><span class="dot poor"></span> Débil (< -70)</div>
                     </div>
                 </div>
-
                 <div class="card" id="selectedInfo" style="display:none;">
-                    <h3>Punto Seleccionado</h3>
+                    <h3>📍 Punto Seleccionado</h3>
                     <div class="info">
                         <div><b>ID:</b> <span id="pointId">-</span></div>
                         <div><b>Señal:</b> <span id="pointSignal">-</span></div>
@@ -62,7 +317,6 @@
             </aside>
         </main>
     </div>
-
     <script src="js/config.js"></script>
     <script src="js/app.js"></script>
 </body>
