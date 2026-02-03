@@ -2,9 +2,10 @@
 const CONFIG = {
     // Umbrales de señal en dBm
     thresholds: {
-        excellent: -50,
-        good: -60,
-        fair: -70
+        excellent: -55,    // 0 a -55 dBm: Señal muy buena
+        good: -75,         // -55 a -75 dBm: Buena
+        fair: -90          // -75 a -90 dBm: Mala
+                          // ≤ -90 dBm: Desconexión
     },
     
     // Datos de cada punto (coordenadas estimadas según plano)
@@ -52,5 +53,5 @@ function getSignalCategory(signal) {
 
 function getSignalText(signal) {
     const cat = getSignalCategory(signal);
-    return { excellent: 'Excelente', good: 'Buena', fair: 'Regular', poor: 'Débil' }[cat];
+    return { excellent: 'Señal muy buena', good: 'Buena', fair: 'Mala', poor: 'Desconexión' }[cat];
 }
