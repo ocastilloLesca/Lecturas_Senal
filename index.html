@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plano de planta - tomas de lectura de señal</title>
+    <title>Mapa WiFi - Cobertura de Red</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Plano de planta - tomas de lectura de señal</h1>
+            <h1>Network Coverage Map</h1>
             <div class="controls">
                 <button id="toggleLabels" class="btn">🏷️ Etiquetas</button>
                 <button id="toggleGrid" class="btn">▦ Cuadrícula</button>
@@ -19,6 +19,7 @@
                 <button id="resetView" class="btn">⟲</button>
             </div>
         </header>
+
         <main class="main">
             <div class="map-container" id="mapContainer">
                 <div class="map-wrapper" id="mapWrapper">
@@ -27,25 +28,29 @@
                     <div id="pointsLayer" class="points-layer"></div>
                 </div>
             </div>
+
             <aside class="sidebar">
                 <div class="card">
                     <h3>Estadísticas</h3>
                     <div class="stats">
                         <div class="stat"><span>Total:</span> <b id="totalPoints">28</b></div>
-                        <div class="stat excellent"><span>Excelente:</span> <b id="excellentPoints">0</b></div>
+                        <div class="stat excellent"><span>Señal muy buena:</span> <b id="excellentPoints">0</b></div>
                         <div class="stat good"><span>Buena:</span> <b id="goodPoints">0</b></div>
-                        <div class="stat fair"><span>Regular:</span> <b id="fairPoints">0</b></div>
-                        <div class="stat poor"><span>Débil:</span> <b id="poorPoints">0</b></div>
+                        <div class="stat fair"><span>Mala:</span> <b id="fairPoints">0</b></div>
+                        <div class="stat poor"><span>Desconexión:</span> <b id="poorPoints">0</b></div>
                     </div>
                 </div>
+
                 <div class="card">
                     <h3>Leyenda</h3>
                     <div class="legend">
-                        <div class="legend-item"><span class="dot excellent"></span> Excelente (≥ -50 dBm)</div>
-                        <div class="legend-item"><span class="dot good"></span> Buena (-51 a -70)</div>
-                        <div class="legend-item"><span class="dot poor"></span> Débil (< -71)</div>
+                        <div class="legend-item"><span class="dot excellent"></span> Señal muy buena (0 a -55 dBm)</div>
+                        <div class="legend-item"><span class="dot good"></span> Buena (-55 a -75 dBm)</div>
+                        <div class="legend-item"><span class="dot fair"></span> Mala (-75 a -90 dBm)</div>
+                        <div class="legend-item"><span class="dot poor"></span> Desconexión (≤ -90 dBm)</div>
                     </div>
                 </div>
+
                 <div class="card" id="selectedInfo" style="display:none;">
                     <h3>Punto Seleccionado</h3>
                     <div class="info">
@@ -57,6 +62,7 @@
             </aside>
         </main>
     </div>
+
     <script src="js/config.js"></script>
     <script src="js/app.js"></script>
 </body>
